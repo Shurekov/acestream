@@ -1,0 +1,15 @@
+shurekov.ru {
+    reverse_proxy nginx-rtmp:80
+    encode zstd gzip
+    header Cache-Control no-cache
+}
+
+shurekov.ru/logs/* {
+    root * /home/seva/acestream
+    file_server browse
+}
+
+shurekov.ru/stat {
+    reverse_proxy nginx-rtmp:80
+}
+

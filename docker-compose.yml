@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  ace1:
+    image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    ports: ["6878:6878"]
+    environment: [ALLOW_REMOTE_ACCESS=yes]
+    restart: unless-stopped
+
+  ace2:
+    image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    ports: ["6880:6878"]
+    environment: [ALLOW_REMOTE_ACCESS=yes]
+    restart: unless-stopped
+
+  nginx-rtmp:
+    image: alfg/nginx-rtmp:latest
+    container_name: nginx-rtmp
+    ports:
+      - "1935:1935"          # RTMP для ffmpeg-push
+      - "127.0.0.1:8080:80"  # только локально, Caddy будет проксировать
+    volumes:
+      - ./hls:/opt/data/hls
+      - ./stat.xsl:/opt/nginx/html/stat.xsl   # <-- дашборд
+    environment:
+      - STAT=ON                               # <-- включаем статистику
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data          # сертификаты и т.п.
+    depends_on:
+      - nginx-rtmp
+
+volumes:
+  caddy_data:
