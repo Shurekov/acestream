@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка трансляций</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Основной контейнер страницы -->
+    <div class="page-wrapper">
+        <!-- Шапка с заголовком -->
+        <header>
+            <h1>Панель управления трансляциями</h1>
+        </header>
+
+        <!-- Основное содержимое -->
+        <main class="admin-container">
+            <!-- Сетка каналов (генерируется через Web Components) -->
+            <div class="channels-grid">
+                <channel-card channel-id="ch1" channel-number="1" channel-color="ch1-icon"></channel-card>
+                <channel-card channel-id="ch2" channel-number="2" channel-color="ch2-icon"></channel-card>
+                <channel-card channel-id="ch3" channel-number="3" channel-color="ch3-icon"></channel-card>
+            </div>
+
+            <!-- Блок проверки потока -->
+            <section class="probe-section" aria-labelledby="probe-title">
+                <h2 id="probe-title">Проверка потока</h2>
+                <form class="probe-form" id="probe-form">
+                    <label for="probe-ace-id">Ace ID потока:</label>
+                    <input type="text" id="probe-ace-id" placeholder="Введите Ace ID для проверки" required autocomplete="off">
+                    <button id="probe-button" type="button">Проверить</button>
+                </form>
+                <div class="probe-result" id="probe-result" role="status">
+                    <p class="probe-info">Введите Ace ID и нажмите "Проверить".</p>
+                </div>
+            </section>
+
+            <!-- Глобальные действия -->
+            <div class="global-actions">
+                <button id="btn-refresh-all" aria-label="Обновить статусы всех каналов">Обновить все статусы</button>
+                <button id="btn-reload-page" aria-label="Перезагрузить страницу">Перезагрузить страницу</button>
+            </div>
+             <section id="history-section">
+                <h2>История трансляций</h2>
+                <button id="btn-clear-history" class="btn-danger">Очистить историю</button>
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Канал</th>
+                            <th>Ace ID</th>
+                            <th>Название</th>
+                            <th>Длит., с</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Подключение Web Component -->
+    <script src="js/channel-card.js"></script>
+    
+    <!-- Подключение основного JavaScript -->
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+/* css/player.css - Оптимизированная версия с пояснениями */
+
+/* === БАЗОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ УДОБСТВА ПОДДЕРЖКИ === */
+:root {
+  /* Цвета фона для разных элементов */
+  --color-bg-primary: #0f0f0f;      /* Основной темный фон */
+  --color-bg-secondary: #000000;    /* Вторичный черный фон */
+  --color-bg-container: #121212;    /* Фон контейнеров */
+  --color-bg-input: #2c2c2c;        /* Фон полей ввода и кнопок */
+  --color-bg-input-hover: #3a3a3a;  /* Фон при наведении */
+  --color-bg-input-disabled: #2a2a2a; /* Фон неактивных элементов */
+  
+  /* Цвета текста */
+  --color-text-primary: #e0e0e0;    /* Основной текст */
+  --color-text-label: #bbb;         /* Подписи к полям */
+  --color-text-white: #fff;         /* Белый текст */
+  --color-text-disabled: #777;      /* Текст неактивных элементов */
+  
+  /* Цвета границ */
+  --color-border: #333;             /* Основная граница */
+  --color-border-light: #444;       /* Светлая граница */
+  --color-border-lighter: #555;     /* Еще более светлая граница */
+  
+  /* Цвет тени при фокусе */
+  --color-focus-shadow: rgba(0, 204, 153, 0.3);
+  
+  /* Отступы */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 25px;
+  
+  /* Скругление углов */
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  
+  /* Размеры шрифтов и жирность */
+  --font-size-md: 15px;
+  --font-weight-normal: 500;
+  --font-weight-bold: 600;
+  
+  /* Тени для разных элементов */
+  --shadow-container: 0 10px 30px rgba(0, 0, 0, 0.5); /* Тень контейнера */
+  --shadow-button: 0 2px 5px rgba(0, 0, 0, 0.2);     /* Тень кнопки */
+  --shadow-button-hover: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень кнопки при наведении */
+  
+  /* Плавные переходы */
+  --transition-fast: all 0.2s ease;
+}
+
+/* === ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ === */
+/* Стили для всего тела страницы */
+body {
+  background: linear-gradient(135deg, var(--color-bg-primary), var(--color-bg-secondary));
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh; /* Растягиваем на всю высоту экрана */
+}
+
+/* Центрирование всего содержимого страницы */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
+}
+
+/* === КОНТЕЙНЕР ПЛЕЕРА === */
+/* Основной контейнер плеера с тенью и скругленными углами */
+.player-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  background: var(--color-bg-container);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden; /* Скрывает содержимое за скругленными углами */
+  box-shadow: var(--shadow-container);
+  border: 1px solid var(--color-border);
+}
+
+/* === ПАНЕЛЬ УПРАВЛЕНИЯ === */
+/* Верхняя панель с селектором каналов и кнопкой "Прямой эфир" */
+.controls {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: rgba(30, 30, 30, 0.8); /* Полупрозрачный фон */
+  backdrop-filter: blur(5px); /* Эффект размытия фона */
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg); /* Отступы между элементами */
+  flex-wrap: wrap; /* Перенос элементов на новую строку при необходимости */
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Подпись к селектору каналов */
+.controls label {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  color: var(--color-text-label);
+}
+
+/* === СЕЛЕКТОР КАНАЛОВ === */
+/* Выпадающий список для выбора канала */
+#channel-selector {
+  padding: var(--spacing-xs) 12px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  background: var(--color-bg-input);
+  color: var(--color-text-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-md);
+  width: auto;
+  min-width: 150px; /* Минимальная ширина */
+  appearance: none; /* Убираем стандартную стрелку браузера */
+  /* Добавляем свою стрелку через background-image */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  cursor: pointer;
+  transition: var(--transition-fast); /* Плавные переходы */
+}
+
+/* Стили при наведении на селектор */
+#channel-selector:hover {
+  background-color: var(--color-bg-input-hover);
+  border-color: var(--color-border-lighter);
+}
+
+/* Стили при фокусе на селекторе */
+#channel-selector:focus {
+  outline: none;
+  border-color: var(--color-text-white);
+  box-shadow: 0 0 0 2px var(--color-focus-shadow);
+}
+
+/* === СТРОКА СТАТУСА === */
+/* Информационная строка, показывающая статус загрузки */
+#status {
+  padding: 6px 12px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  white-space: nowrap; /* Запрещаем перенос текста */
+  overflow: hidden; /* Скрываем выходящий за границы текст */
+  text-overflow: ellipsis; /* Добавляем многоточие при обрезке */
+  text-align: right;
+  border-radius: var(--border-radius-sm);
+  background-color: rgba(40, 40, 40, 0.5);
+  margin-left: auto; /* Прижимаем вправо */
+  max-width: fit-content; /* Ширина по содержимому */
+}
+
+/* Стиль для информационного текста */
+.info {
+  color: var(--color-text-white);
+}
+
+/* === КОНТЕЙНЕР ВИДЕО === */
+/* Контейнер, в котором отображается видео */
+#video-container {
+  position: relative;
+  width: 100%;
+  background: #000; /* Черный фон для видео */
+}
+
+/* Стили для видеоэлемента */
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 75vh; /* Максимальная высота 75% от высоты экрана */
+  outline: none; /* Убираем стандартную рамку при фокусе */
+}
+
+/* === СКРЫТИЕ ЭЛЕМЕНТОВ УПРАВЛЕНИЯ БРАУЗЕРА === */
+/* Скрываем ползунок перемотки и таймер в плеере браузера */
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-seek-back-button,
+video::-webkit-media-controls-seek-forward-button,
+video::-webkit-media-controls-timeline-container {
+  display: none !important;
+}
+
+/* Скрываем ползунок громкости */
+video::-webkit-media-controls-panel input[type="range"] {
+  display: none !important;
+}
+
+/* Скрываем отображение времени */
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+  opacity: 0;
+  color: transparent;
+}
+
+/* То же для Firefox */
+video::-moz-media-controls-timeline {
+  opacity: 0;
+}
+
+/* === КНОПКА "ПРЯМОЙ ЭФИР" === */
+/* Кнопка для перехода к актуальному моменту трансляции */
+.live-button {
+  padding: var(--spacing-xs) 15px;
+  background: var(--color-bg-input);
+  color: var(--color-text-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  white-space: nowrap;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-button);
+}
+
+/* Стили при наведении на кнопку */
+.live-button:hover {
+  background: var(--color-bg-input-hover);
+  border-color: var(--color-border-lighter);
+  transform: translateY(-2px); /* Легкое "приподнимание" */
+  box-shadow: var(--shadow-button-hover);
+}
+
+/* Стили при нажатии на кнопку */
+.live-button:active {
+  transform: translateY(0); /* Возвращаем на место */
+  box-shadow: var(--shadow-button);
+}
+
+/* Стили для неактивной кнопки */
+.live-button:disabled {
+  background: var(--color-bg-input-disabled);
+  border-color: var(--color-border-light);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* === АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ === */
+/* Стили для планшетов и смартфонов */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 15px;
+  }
+
+  .controls {
+    padding: 12px 15px;
+    gap: 15px;
+  }
+
+  #channel-selector, .live-button {
+    padding: 10px 15px;
+    font-size: var(--font-size-md);
+    min-height: 42px;
+    min-width: 120px;
+  }
+
+  video {
+    max-height: 65vh;
+  }
+}
+
+/* Стили для очень маленьких экранов (смартфоны) */
+@media (max-width: 480px) {
+  .controls {
+    flex-direction: column; /* Вертикальное расположение элементов */
+    align-items: stretch;
+    padding: 10px;
+  }
+
+  .controls > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .controls label {
+    justify-content: center; /* Центрируем подпись */
+  }
+
+  #status {
+    text-align: center;
+    padding: 8px;
+    order: -1; /* Перемещаем статус вверх */
+  }
+
+  .live-button {
+    font-size: var(--font-size-md);
+    min-height: 42px;
+  }
+}

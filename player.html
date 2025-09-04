@@ -1,60 +1,37 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <title>Live Ace-HLS</title>
-
-  <!-- Video.js CSS + JS -->
-  <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
-  <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-
-  <style>
-    body{margin:0;background:#111;color:#fff;font-family:Arial,Helvetica,sans-serif}
-    #container{max-width:720px;margin:40px auto;text-align:center}
-    #player{width:100%;aspect-ratio:16/9}
-    .controls{margin-top:12px}
-    .controls button{
-      background:#0d6efd;border:none;color:#fff;padding:8px 18px;margin:0 4px;
-      border-radius:4px;cursor:pointer;font-size:14px
-    }
-    .controls button.active{background:#198754}
-  </style>
+  <meta charset="utf-8">
+  <title>Трансляции</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Подключение внешнего CSS -->
+  <link rel="stylesheet" href="css/player.css">
+  
+  <!-- Подключение hls.js из CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
-
 <body>
-  <div id="container">
-    <video-js id="player" class="vjs-default-skin vjs-big-play-centered"
-              controls preload="auto" width="640" height="360">
-      <!-- по умолчанию ch1 -->
-      <source src="https://shurekov.ru/hls/ch1.m3u8" type="application/x-mpegURL">
-    </video-js>
-
-    <div class="controls">
-      <button id="btn-ch1" class="active">CH1 – СТС RU</button>
-      <button id="btn-ch2">CH2 – ТНТ HD</button>
+  <div class="page-wrapper">
+    <div class="player-container">
+      <div class="controls">
+        <label for="channel-selector">Канал:</label>
+        <select id="channel-selector">
+          <option value="https://shurekov.ru/hls/ch1/index.m3u8" selected>Канал 1</option>
+          <option value="https://shurekov.ru/hls/ch2/index.m3u8">Канал 2</option>
+          <option value="https://shurekov.ru/hls/ch3/index.m3u8">Канал 3</option>
+        </select>
+        <!-- Кнопка "Прямой эфир" -->
+        <button id="live-btn" class="live-button">Прямой эфир</button>
+        <div id="status" class="status">Загрузка...</div>
+      </div>
+      <div id="video-container">
+        <video id="video" controls autoplay muted playsinline></video>
+      </div>
     </div>
   </div>
-
-  <script>
-    const player = videojs('player');
-    const btnCh1 = document.getElementById('btn-ch1');
-    const btnCh2 = document.getElementById('btn-ch2');
-
-    function switchChannel(url, activeBtn) {
-      // загружаем новый плей-лист
-      player.src({src: url, type: 'application/x-mpegURL'});
-      player.play();
-
-      // подсветка активной кнопки
-      [btnCh1, btnCh2].forEach(b => b.classList.remove('active'));
-      activeBtn.classList.add('active');
-    }
-
-    btnCh1.addEventListener('click', () =>
-      switchChannel('https://shurekov.ru/hls/ch1.m3u8', btnCh1));
-
-    btnCh2.addEventListener('click', () =>
-      switchChannel('https://shurekov.ru/hls/ch2.m3u8', btnCh2));
-  </script>
+  
+  <!-- Подключение внешнего JS -->
+  <script src="js/player.js"></script>
 </body>
 </html>

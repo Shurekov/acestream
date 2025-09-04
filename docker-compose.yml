@@ -1,15 +1,23 @@
-version: "3.9"
 
 services:
   ace1:
     image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    container_name: ace1
     ports: ["6878:6878"]
     environment: [ALLOW_REMOTE_ACCESS=yes]
     restart: unless-stopped
 
   ace2:
     image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    container_name: ace2
     ports: ["6880:6878"]
+    environment: [ALLOW_REMOTE_ACCESS=yes]
+    restart: unless-stopped
+  
+  ace3:
+    image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    container_name: ace3
+    ports: ["6881:6878"]
     environment: [ALLOW_REMOTE_ACCESS=yes]
     restart: unless-stopped
 
@@ -21,7 +29,6 @@ services:
       - "127.0.0.1:8080:80"  # только локально, Caddy будет проксировать
     volumes:
       - ./hls:/opt/data/hls
-      - ./stat.xsl:/opt/nginx/html/stat.xsl   # <-- дашборд
     environment:
       - STAT=ON                               # <-- включаем статистику
     restart: unless-stopped
@@ -36,8 +43,43 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data          # сертификаты и т.п.
+      - ./:/srv 
+      - ./logs:/var/log/caddy  
+      - ./htpasswd_admin:/etc/caddy/htpasswd_admin:ro # Монтируем только для чтения
     depends_on:
       - nginx-rtmp
+      - stream_manager # Не забудьте зависимость от stream_manager
+
+  ace_probe:
+    image: ghcr.io/martinbjeldbak/acestream-http-proxy
+    container_name: ace_probe
+    ports: ["127.0.0.1:6882:6878"] # Открываем порт только для localhost хоста
+    environment:
+      - ALLOW_REMOTE_ACCESS=yes # По-прежнему разрешаем доступ, так как обращается stream_manager из другого контейнера
+    restart: unless-stopped
+
+  stream_manager:
+    build:
+      context: ./stream_manager
+      dockerfile: Dockerfile
+    container_name: stream_manager
+    restart: unless-stopped
+    # Монтируем общую директорию для логов
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    # Менеджеру нужен доступ к сетевым ресурсам других контейнеров
+    # Docker Compose автоматически создает сеть, и сервисы могут общаться по именам
+    # depends_on не гарантирует, что сервисы полностью запущены, но задает порядок
+    depends_on:
+      - ace1
+      - ace2
+      - ace3
+      - nginx-rtmp
+      - ace_probe # <-- Добавить эту строку
+    # Порт внутри контейнера (5000) будет доступен другим контейнерам по имени сервиса
+    # Для внешнего доступа можно не открывать порт, а проксировать через Caddy
+# --- КОНЕЦ НОВОГО СЕРВИСА ---
 
 volumes:
   caddy_data:

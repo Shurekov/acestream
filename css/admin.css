@@ -1,0 +1,512 @@
+/* --- /home/seva/acestream/css/admin.css --- */
+/* --- Оптимизированная версия с CSS переменными --- */
+
+/* === ОСНОВНЫЕ ПЕРЕМЕННЫЕ === */
+:root {
+  /* Цвета */
+  --color-bg-primary: #0f0f0f;
+  --color-bg-secondary: #000000;
+  --color-bg-container: #121212;
+  --color-bg-card: #1e1e1e;
+  --color-bg-input: #2c2c2c;
+  --color-text-primary: #fff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-muted: #bbb;
+  --color-border: #333;
+  --color-border-light: #444;
+  --color-brand-red: #ff5252;
+  --color-brand-green: #4caf50;
+  --color-brand-blue: #2196f3;
+  --color-status-success: #4caf50;
+  --color-status-error: #f44336;
+  --color-status-warning: #ff6b6b;
+  --color-link: #64b5f6;
+  --color-link-hover: #90caf9;
+  
+  /* Размеры и отступы */
+  --spacing-xxs: 5px;
+  --spacing-xs: 10px;
+  --spacing-sm: 15px;
+  --spacing-md: 20px;
+  --spacing-lg: 25px;
+  --spacing-xl: 30px;
+  --spacing-xxl: 60px;
+  
+  /* Скругления */
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 10px;
+  --border-radius-xl: 12px;
+  
+  /* Размеры шрифтов */
+  --font-size-sm: 14px;
+  --font-size-md: 15px;
+  --font-size-lg: 1.3rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+  
+  /* Тени */
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-container: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-button: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --shadow-button-hover: 0 4px 8px rgba(0, 0, 0, 0.3);
+  
+  /* Переходы */
+  --transition-fast: all 0.2s ease;
+}
+
+/* === ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ === */
+body {
+  background: linear-gradient(135deg, var(--color-bg-primary), var(--color-bg-secondary));
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+}
+
+.page-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+h1 {
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-xxs);
+  color: var(--color-text-primary);
+}
+
+/* === ОСНОВНОЙ КОНТЕЙНЕР АДМИНКИ === */
+.admin-container {
+  background: var(--color-bg-container);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-container);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+}
+
+/* === СЕТКА КАНАЛОВ === */
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xxl);
+}
+
+/* === СТИЛИ КАНАЛА === */
+.channel {
+  background: var(--color-bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.channel h2 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Иконки каналов */
+.channel-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #777;
+}
+
+.ch1-icon { background-color: var(--color-brand-red); }
+.ch2-icon { background-color: var(--color-brand-green); }
+.ch3-icon { background-color: var(--color-brand-blue); }
+
+/* Группы элементов управления */
+.input-group, .buttons-group {
+  margin-bottom: var(--spacing-sm);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xxs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+/* Поля ввода */
+input[type="text"] {
+  width: 100%;
+  padding: var(--spacing-xxs) 12px;
+  font-size: var(--font-size-md);
+  background: var(--color-bg-input);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-md);
+  box-sizing: border-box;
+  transition: var(--transition-fast);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-text-primary);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.buttons-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xxs);
+}
+
+/* Контент канала */
+.channel-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--spacing-xxs);
+}
+
+/* Статусы */
+.status {
+  padding: var(--spacing-xxs) 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  border-radius: var(--border-radius-sm);
+  background-color: rgba(40, 40, 40, 0.7);
+  text-align: center;
+  overflow-wrap: break-word;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.running {
+  color: var(--color-status-success);
+  background-color: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.stopped {
+  color: var(--color-status-error);
+  background-color: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.error {
+  color: var(--color-status-warning);
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+/* Ссылки на логи */
+.logs-link {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.logs-link a {
+  color: var(--color-link);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: var(--transition-fast);
+  display: inline-block;
+}
+
+.logs-link a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+/* === БЛОК ПРОВЕРКИ ПОТОКА === */
+.probe-section {
+  background: var(--color-bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  margin: var(--spacing-md) 0;
+}
+
+.probe-section h2 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+}
+
+.probe-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  align-items: end;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.probe-form label {
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xxs);
+  display: block;
+}
+
+.probe-form input[type="text"] {
+  padding: var(--spacing-xxs) 12px;
+  font-size: var(--font-size-md);
+  background: var(--color-bg-input);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-fast);
+  flex: 1;
+  min-width: 200px;
+}
+
+.probe-form input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-text-primary);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Результаты проверки */
+.probe-result {
+  min-height: 50px;
+}
+
+.probe-info, .probe-error, .probe-success {
+  padding: var(--spacing-xxs);
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+}
+
+.probe-info {
+  background-color: rgba(40, 40, 40, 0.5);
+  color: var(--color-text-muted);
+}
+
+.probe-error {
+  background-color: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: var(--color-status-error);
+}
+
+.probe-success {
+  background-color: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: var(--color-status-success);
+}
+
+/* Таблица деталей */
+.probe-details {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.9em;
+}
+
+.probe-details th, .probe-details td {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-xxs) 12px;
+  text-align: left;
+}
+
+.probe-details th {
+  background-color: var(--color-bg-input);
+  font-weight: bold;
+}
+
+.probe-details td {
+  background-color: var(--color-bg-card);
+}
+
+.supported-yes {
+  color: var(--color-status-success);
+  font-weight: bold;
+}
+
+.supported-no {
+  color: var(--color-status-error);
+  font-weight: bold;
+}
+
+/* === ГЛОБАЛЬНЫЕ ДЕЙСТВИЯ === */
+.global-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-lg);
+}
+
+.global-actions button {
+  flex: 0 1 auto;
+  min-width: 180px;
+}
+
+/* === СТИЛИ КНОПОК === */
+button {
+  padding: var(--spacing-xxs) 15px;
+  background: var(--color-bg-input);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-button);
+  flex: 1;
+  min-width: 100px;
+}
+
+button:hover {
+  background: #3a3a3a;
+  border-color: #555;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-hover);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-button);
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+
+  .channels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons-group {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .global-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .global-actions button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .probe-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .probe-form input[type="text"] {
+    min-width: auto;
+  }
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  z-index: 9999;
+}
+.toast.success { background: #22c55e; }
+.toast.error   { background: #ef4444; }
+.toast.info    { background: #3b82f6; }
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .channel {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* === ИСТОРИЯ ТРАНСЛЯЦИЙ === */
+#history-section {
+  background: var(--color-bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-xxl);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+}
+
+#history-section h2 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+}
+
+#history-section .btn-danger {
+  margin-bottom: var(--spacing-sm);
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+#history-table thead th {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-input);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+#history-table tbody td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+#history-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#history-table .btn-restart {
+  background: var(--color-brand-blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: 4px 8px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+#history-table .btn-restart:hover {
+  background: #006edc;
+  transform: translateY(-1px);
+}

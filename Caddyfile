@@ -1,15 +1,46 @@
 shurekov.ru {
-    reverse_proxy nginx-rtmp:80
+
+    # === Защита HLS от hotlinking ===
+    handle /hls/* {
+        @allowed {
+            header Referer https://shurekov.ru*
+            header User-Agent *Mozilla*
+        }
+        handle @allowed {
+            root * /srv
+            file_server
+            header {
+                Cache-Control "no-cache, no-store, must-revalidate"
+                Pragma "no-cache"
+                Expires "0"
+            }
+        }
+        respond "Access Denied. Hotlinking forbidden." 403
+    }
+
+    # === Защита админки (только страница) ===
+    handle /admin.html {
+        basic_auth * {
+            admin "$2b$12$J0wGJTFGStD6P5gn1Mgu3.m7StZdXcpr9c.QSKDJqlczXCd8775Fu"
+        }
+        root * /srv
+        file_server
+    }
+
+    # === API без пароля ===
+    handle /api/* {
+        reverse_proxy stream_manager:5000
+    }
+
+    # === Основной сайт ===
+    root * /srv
+    file_server
     encode zstd gzip
-    header Cache-Control no-cache
-}
 
-shurekov.ru/logs/* {
-    root * /home/seva/acestream
-    file_server browse
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 100MB
+            roll_keep 5
+        }
+    }
 }
-
-shurekov.ru/stat {
-    reverse_proxy nginx-rtmp:80
-}
-
