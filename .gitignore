@@ -1,0 +1,20 @@
+# Секреты
+.env
+htpasswd_admin
+
+# Логи и временные файлы
+logs/*.log
+*.swp
+*.swo
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Caddy certificates (owned by root)
+letsencrypt/
+
+# Сгенерированные данные
+data/
+hls/
